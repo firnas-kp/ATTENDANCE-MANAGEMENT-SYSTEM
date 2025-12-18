@@ -1,0 +1,64 @@
+{
+  "students": [
+    {
+      "id": "aacb",
+      "name": "Saran Anil",
+      "email": "sarananil@gmail.com",
+      "rollNumber": "001"
+    },
+    {
+      "id": "7b6f",
+      "name": "Bino Shalin",
+      "email": "bino@gmail.com",
+      "rollNumber": "002"
+    },
+    {
+      "id": "56fa",
+      "name": "Shanif",
+      "email": "shanif@gmail.com",
+      "rollNumber": "003"
+    },
+    {
+      "id": "dd66",
+      "name": "Salmanul faris",
+      "email": "salmanfari@gmail.com",
+      "rollNumber": "004"
+    },
+    {
+      "id": "521d",
+      "name": "Sreethu",
+      "email": "sreethupk@gmail.com",
+      "rollNumber": "005"
+    },
+    {
+      "id": "48f0",
+      "name": "Vyshna mol p",
+      "email": "molp@gmail.com",
+      "rollNumber": "006"
+    },
+    {
+      "id": "d0c8",
+      "name": "firnas.kp",
+      "email": "firnaskp@gmail.com",
+      "rollNumber": "007"
+    },
+    {
+      "id": "a752",
+      "name": "Lisan op",
+      "email": "oplisan@gmail.com",
+      "rollNumber": "008"
+    },
+    {
+      "id": "d0c7",
+      "name": "Salman Rasheed",
+      "email": "rasheed@gmail.com",
+      "rollNumber": "009"
+    },
+    {
+      "id": "fe58",
+      "name": "Hasna kp",
+      "email": "hasnakp@gmail.com",
+      "rollNumber": "010"
+    }
+  ]
+}

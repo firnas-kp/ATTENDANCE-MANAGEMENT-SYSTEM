@@ -1,0 +1,211 @@
+import { useEffect, useState } from 'react';
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Row,
+  Table,
+  Spinner,
+  Alert,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+  fetchStudents,
+  addStudent,
+  deleteStudent,
+  selectStudents,
+  selectStudentsLoading,
+  selectStudentsError,
+} from '../redux/studentSlice.js';
+
+const Students = () => {
+  const dispatch = useDispatch();
+  const students = useSelector(selectStudents);
+  const loading = useSelector(selectStudentsLoading);
+  const error = useSelector(selectStudentsError);
+
+  const [form, setForm] = useState({ //Add student
+    name: '',
+    email: '',
+    rollNumber: '',
+  });
+  const [errors, setErrors] = useState({});//validation eroor
+  const [submitError, setSubmitError] = useState('');//submit error
+
+  useEffect(() => {
+    dispatch(fetchStudents());
+  }, [dispatch]);
+
+  const validate = () => {
+    const newErrors = {};
+    if (!form.name) newErrors.name = 'Name is required';
+    if (!form.email) newErrors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      newErrors.email = 'Invalid email format';
+    if (!form.rollNumber) newErrors.rollNumber = 'Roll number is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: '' });
+    setSubmitError('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    try {
+      await dispatch(addStudent(form)).unwrap(); //add student
+      setForm({ name: '', email: '', rollNumber: '' }); //reset form
+    } catch {
+      setSubmitError('Failed to add student. Please try again.'); //error handling
+    }
+  };
+
+  const handleDelete = async (id) => { // delete student
+    if (!window.confirm('Are you sure you want to delete this student?')) { // confirmation
+      return;
+    }
+    try {
+      await dispatch(deleteStudent(id)).unwrap(); //delete
+    } catch {
+    }
+  };
+
+  return (
+    <Row className="g-4">
+      <Col xs={12} md={12} lg={4} xl={4}>
+        <Card className="h-100">
+          <Card.Body>
+            <Card.Title className="mb-3">Add Student</Card.Title>
+            {submitError && <Alert variant="danger">{submitError}</Alert>}
+            <Form onSubmit={handleSubmit} noValidate>
+              <Form.Group className="mb-3" controlId="studentName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  isInvalid={!!errors.name}
+                  placeholder="Student name"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="studentEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  isInvalid={!!errors.email}
+                  placeholder="Student email"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.email}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="studentRoll">
+                <Form.Label>Roll Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="rollNumber"
+                  value={form.rollNumber}
+                  onChange={handleChange}
+                  isInvalid={!!errors.rollNumber}
+                  placeholder="Roll number"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.rollNumber}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <div className="d-grid">
+                <Button type="submit" variant="primary">
+                  Add Student
+                </Button>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col xs={12} md={12} lg={8} xl={8}>
+        <Card className="h-100">
+          <Card.Body>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <Card.Title className="mb-0">Students</Card.Title>
+            </div>
+            {loading && (
+              <div className="text-center my-3">
+                <Spinner animation="border" role="status" />
+              </div>
+            )}
+            {error && <Alert variant="danger">{error}</Alert>}
+            {!loading && students.length === 0 && (
+              <p className="mb-0">No students found. Add a new student.</p>
+            )}
+            {!loading && students.length > 0 && (
+              <div className="table-responsive" style={{ overflowX: 'auto' }}>
+                <Table striped bordered hover responsive="sm" className="mb-0">
+                  <thead>
+                    <tr>
+                      <th style={{ minWidth: '50px' }}>No.</th>
+                      <th style={{ minWidth: '120px' }}>Name</th>
+                      <th style={{ minWidth: '150px' }}>Email</th>
+                      <th style={{ minWidth: '120px' }}>Roll Number</th>
+                      <th style={{ minWidth: '140px' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {students.map((student, index) => (
+                      <tr key={student.id}>
+                        <td>{index + 1}</td>
+                        <td className="text-break">{student.name}</td>
+                        <td className="text-break">
+                          <small>{student.email}</small>
+                        </td>
+                        <td>{student.rollNumber}</td>
+                        <td>
+                          <div className="d-flex flex-wrap gap-1">
+                            <Button
+                              as={Link}
+                              to={`/students/edit/${student.id}`}
+                              size="sm"
+                              variant="outline-primary"
+                              className="flex-fill flex-sm-grow-0"
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline-danger"
+                              onClick={() => handleDelete(student.id)}
+                              className="flex-fill flex-sm-grow-0"
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            )}
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
+  );
+};
+
+export default Students;
+
+
