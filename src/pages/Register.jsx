@@ -7,7 +7,7 @@ import { registerUser, selectRegisteredUsers } from '../redux/authSlice.js';
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'user' });
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState('');
@@ -101,6 +101,20 @@ const Register = () => {
                 <Form.Control.Feedback type="invalid">
                   {errors.password}
                 </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="registerRole">
+                <Form.Label>Role</Form.Label>
+                <Form.Select
+                  name="role"
+                  value={form.role}
+                  onChange={handleChange}
+                >
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </Form.Select>
+                <Form.Text className="text-muted">
+                  Select your role. Admin has full access to manage students and attendance.
+                </Form.Text>
               </Form.Group>
               <div className="d-grid mb-3">
                 <Button type="submit" variant="primary">

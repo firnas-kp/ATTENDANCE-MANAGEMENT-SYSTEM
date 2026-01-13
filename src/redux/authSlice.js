@@ -62,6 +62,8 @@ const authSlice = createSlice({
 export const { registerUser, loginSuccess, logout } = authSlice.actions;
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectUserRole = (state) => state.auth.user?.role || 'user';
+export const selectIsAdmin = (state) => state.auth.user?.role === 'admin';
 export const selectRegisteredUsers = () => loadUsers();
 
 export default authSlice.reducer;

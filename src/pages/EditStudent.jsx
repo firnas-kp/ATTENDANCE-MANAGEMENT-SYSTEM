@@ -15,18 +15,23 @@ import {
   selectStudents,
   updateStudent,
 } from '../redux/studentSlice.js';
+import { selectIsAdmin } from '../redux/authSlice.js';
+import { useLocation } from 'react-router-dom';
 
 const EditStudent = () => {
-  const { id } = useParams(); //url ninnu id
+  const { id } = useParams(); //url ninnu dynamic value edullaan(id)
   const studentId = id; // json server db.jsonl ID string aanengil string aayi thanne use cheyyunnu
-  const dispatch = useDispatch();
-  const navigate = useNavigate(); // page redirect cheyyaan
-  const students = useSelector(selectStudents);
+  const dispatch = useDispatch(); //redux action ayakkunnu
+  const navigate = useNavigate(); //page navigate cheyyan
+  const location = useLocation();
+  const students = useSelector(selectStudents);// redux storil ninn stdnt array edukkunnu
+  const isAdmin = useSelector(selectIsAdmin);
 
   const [form, setForm] = useState({
     name: '',
     email: '',
     rollNumber: '',
+    photo: '',
   }); //form values edit cheyyaan
   const [errors, setErrors] = useState({}); //field validation errors
   const [loading, setLoading] = useState(true); //spinner show cheyyaan
@@ -50,6 +55,7 @@ const EditStudent = () => {
         name: existing.name,
         email: existing.email,
         rollNumber: existing.rollNumber,
+        photo: existing.photo || '',
       });
     }
   }, [students, studentId]);
@@ -82,7 +88,8 @@ const EditStudent = () => {
           data: form,
         })
       ).unwrap();
-      navigate('/students');
+      const redirectPath = location.pathname.includes('/admin/') ? '/admin/students' : '/user/students';
+      navigate(redirectPath);
     } catch {
       setSubmitError('Failed to update student. Please try again.');
     }
@@ -152,11 +159,27 @@ const EditStudent = () => {
                   {errors.rollNumber}
                 </Form.Control.Feedback>
               </Form.Group>
+              <Form.Group className="mb-3" controlId="editStudentPhoto">
+                <Form.Label>Photo URL (Optional)</Form.Label>
+                <Form.Control
+                  type="url"
+                  name="photo"
+                  value={form.photo}
+                  onChange={handleChange}
+                  placeholder="https://example.com/photo.jpg"
+                />
+                <Form.Text className="text-muted">
+                  Leave empty to use default avatar
+                </Form.Text>
+              </Form.Group>
               <div className="d-flex flex-column flex-sm-row justify-content-end gap-2">
                 <Button
                   variant="secondary"
                   type="button"
-                  onClick={() => navigate('/students')}
+                  onClick={() => {
+                    const redirectPath = location.pathname.includes('/admin/') ? '/admin/students' : '/user/students';
+                    navigate(redirectPath);
+                  }}
                   className="w-100 w-sm-auto"
                 >
                   Cancel

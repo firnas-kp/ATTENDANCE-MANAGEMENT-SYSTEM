@@ -1,17 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { studentApi } from '../services/studentApi.js';
 
-export const fetchStudents = createAsyncThunk('students/fetchAll', async () => {
+export const fetchStudents = createAsyncThunk('students/fetchAll', async () => { 
   const response = await studentApi.get('/students');
   return response.data;
 });
 
-export const addStudent = createAsyncThunk('students/add', async (student) => {
+export const addStudent = createAsyncThunk('students/add', async (student) => { // add student
   const response = await studentApi.post('/students', student);
   return response.data;
 });
 
-export const updateStudent = createAsyncThunk(
+export const updateStudent = createAsyncThunk( //update student
   'students/update',
   async ({ id, data }) => {
     const response = await studentApi.put(`/students/${id}`, data);
@@ -19,7 +19,7 @@ export const updateStudent = createAsyncThunk(
   }
 );
 
-export const deleteStudent = createAsyncThunk('students/delete', async (id) => {
+export const deleteStudent = createAsyncThunk('students/delete', async (id) => { //delete student
   await studentApi.delete(`/students/${id}`);
   return id;
 });

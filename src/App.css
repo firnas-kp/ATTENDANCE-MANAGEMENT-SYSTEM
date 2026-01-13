@@ -41,3 +41,20 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+/* Student Thumbnail in Table */
+.student-thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.student-thumbnail:hover {
+  transform: scale(1.1);
+  border-color: #667eea;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}

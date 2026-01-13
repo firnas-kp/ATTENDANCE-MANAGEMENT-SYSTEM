@@ -17,6 +17,7 @@ import {
   markAttendance,
   selectAttendanceForDate,
 } from '../redux/attendanceSlice.js';
+import { selectIsAdmin } from '../redux/authSlice.js';
 
 const formatToday = () => {
   const d = new Date();
@@ -26,11 +27,12 @@ const formatToday = () => {
 };
 
 const Attendance = () => {
-  const dispatch = useDispatch();//reduxleekk action ayakkunnu
-  const students = useSelector(selectStudents);//redux storil ninn stdnt array edukkunnu
-  const [selectedDate, setSelectedDate] = useState(formatToday());//current date attendance
+  const dispatch = useDispatch();
+  const students = useSelector(selectStudents);
+  const isAdmin = useSelector(selectIsAdmin);
+  const [selectedDate, setSelectedDate] = useState(formatToday());
   const attendanceForDate = useSelector(
-    selectAttendanceForDate(selectedDate)//select date attendence
+    selectAttendanceForDate(selectedDate)
   );
 
   useEffect(() => {
@@ -55,7 +57,9 @@ const Attendance = () => {
         <Card>
           <Card.Body>
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
-              <Card.Title className="mb-0">Attendance</Card.Title>
+              <Card.Title className="mb-0">
+                {isAdmin ? 'Mark Attendance' : 'View Attendance'}
+              </Card.Title>
               <Form.Group
                 className="mb-0 d-flex align-items-center gap-2"
                 controlId="attendanceDate"
@@ -74,9 +78,17 @@ const Attendance = () => {
 
             {students.length === 0 ? (
               <Alert variant="info">
-                No students available. Please add students first.
+                {isAdmin 
+                  ? 'No students available. Please add students first.' 
+                  : 'No students registered yet.'}
               </Alert>
             ) : (
+              <>
+                {!isAdmin && (
+                  <Alert variant="info" className="mb-3">
+                    <strong>View Only:</strong> You can view attendance records but cannot mark attendance. Only administrators can mark attendance.
+                  </Alert>
+                )}
               <div className="table-responsive" style={{ overflowX: 'auto' }}>
                 <Table
                   striped
@@ -92,7 +104,7 @@ const Attendance = () => {
                       <th style={{ minWidth: '150px' }}>Email</th>
                       <th style={{ minWidth: '120px' }}>Roll Number</th>
                       <th style={{ minWidth: '100px' }}>Status</th>
-                      <th style={{ minWidth: '160px' }}>Mark</th>
+                      {isAdmin && <th style={{ minWidth: '160px' }}>Mark</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -107,46 +119,55 @@ const Attendance = () => {
                           </td>
                           <td>{student.rollNumber}</td>
                           <td className="text-capitalize">
-                            {status || 'Not Marked'}
+                            <span className={`badge ${
+                              status === 'present' ? 'bg-success' :
+                              status === 'absent' ? 'bg-danger' :
+                              'bg-secondary'
+                            }`}>
+                              {status || 'Not Marked'}
+                            </span>
                           </td>
-                          <td>
-                            <div className="d-flex flex-wrap gap-1">
-                              <Button
-                                size="sm"
-                                variant={
-                                  status === 'present'
-                                    ? 'success'
-                                    : 'outline-success'
-                                }
-                                onClick={() =>
-                                  handleMark(student.id, 'present')
-                                }
-                                className="flex-fill flex-sm-grow-0"
-                              >
-                                Present
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant={
-                                  status === 'absent'
-                                    ? 'danger'
-                                    : 'outline-danger'
-                                }
-                                onClick={() =>
-                                  handleMark(student.id, 'absent')
-                                }
-                                className="flex-fill flex-sm-grow-0"
-                              >
-                                Absent
-                              </Button>
-                            </div>
-                          </td>
+                          {isAdmin && (
+                            <td>
+                              <div className="d-flex flex-wrap gap-1">
+                                <Button
+                                  size="sm"
+                                  variant={
+                                    status === 'present'
+                                      ? 'success'
+                                      : 'outline-success'
+                                  }
+                                  onClick={() =>
+                                    handleMark(student.id, 'present')
+                                  }
+                                  className="flex-fill flex-sm-grow-0"
+                                >
+                                  Present
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant={
+                                    status === 'absent'
+                                      ? 'danger'
+                                      : 'outline-danger'
+                                  }
+                                  onClick={() =>
+                                    handleMark(student.id, 'absent')
+                                  }
+                                  className="flex-fill flex-sm-grow-0"
+                                >
+                                  Absent
+                                </Button>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       );
                     })}
                   </tbody>
                 </Table>
               </div>
+              </>
             )}
           </Card.Body>
         </Card>

@@ -1,0 +1,294 @@
+.student-profile-container {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Profile Header Card */
+.profile-header-card {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  margin-bottom: 2rem;
+}
+
+.profile-header-body {
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.profile-photo-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.profile-photo {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: white;
+  transition: transform 0.3s ease;
+}
+
+.profile-photo:hover {
+  transform: scale(1.05);
+}
+
+.profile-status-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #10b981;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.profile-info {
+  margin-bottom: 1.5rem;
+}
+
+.profile-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-email {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+
+.profile-badges {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.profile-badge {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.profile-actions {
+  margin-top: 1rem;
+}
+
+/* Statistics Cards */
+.stat-card-profile {
+  border: none;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.stat-card-profile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-profile .card-body {
+  padding: 2rem;
+  text-align: center;
+}
+
+.stat-icon-profile {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.stat-icon-profile svg {
+  width: 32px;
+  height: 32px;
+}
+
+.stat-icon-absent {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+.stat-icon-total {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-number-profile {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label-profile {
+  font-size: 0.9rem;
+  color: #718096;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* Attendance History Card */
+.attendance-history-card,
+.details-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  height: 100%;
+}
+
+.card-header-custom {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px 16px 0 0;
+  font-weight: 600;
+}
+
+.attendance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.attendance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.attendance-item:hover {
+  background: #edf2f7;
+  transform: translateX(5px);
+}
+
+.attendance-date {
+  font-weight: 500;
+  color: #2d3748;
+  font-size: 0.95rem;
+}
+
+.attendance-badge {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+/* Details Card */
+.details-card .card-body {
+  padding: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #718096;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .profile-header-body {
+    padding: 2rem 1.5rem;
+  }
+
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-name {
+    font-size: 2rem;
+  }
+
+  .stat-number-profile {
+    font-size: 2rem;
+  }
+
+  .attendance-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+

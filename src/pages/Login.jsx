@@ -42,8 +42,13 @@ const Login = () => {
       setAuthError('Invalid email or password');
       return;
     }
-    dispatch(loginSuccess({ email: found.email, name: found.name }));
-    navigate('/dashboard');
+    dispatch(loginSuccess({ 
+      email: found.email, 
+      name: found.name, 
+      role: found.role || 'user' 
+    }));
+    const dashboardRoute = found.role === 'admin' ? '/admin/dashboard' : '/user/dashboard';
+    navigate(dashboardRoute);
   };
 
   return (
